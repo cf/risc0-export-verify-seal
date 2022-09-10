@@ -1,7 +1,7 @@
 use methods::{MULTIPLY_ID, MULTIPLY_PATH};
 use risc0_zkvm::host::Prover;
 use risc0_zkvm::serde::{from_slice, to_vec};
-
+use risc0_verify::risc0_circuit::Risc0Circuit;
 fn main() {
     // Pick two numbers
     let a: u64 = 17;
@@ -15,6 +15,7 @@ fn main() {
     prover.add_input(to_vec(&b).unwrap().as_slice()).unwrap();
     // Run prover & generate receipt
     let receipt = prover.run().unwrap();
+    
 
     // Extract journal of receipt (i.e. output c, where c = a * b)
     let c: u64 = from_slice(&receipt.get_journal_vec().unwrap()).unwrap();
@@ -22,8 +23,17 @@ fn main() {
     // Print an assertion
     println!("I know the factors of {}, and I can prove it!", c);
 
+    
+
     // Here is where one would send 'receipt' over the network...
+
+    let mut deserialized_circuit = Risc0Circuit::default();
+    risc0_verify::verify::verify(&mut deserialized_circuit, receipt.get_seal().unwrap());
+
+
 
     // Verify receipt, panic if it's wrong
     receipt.verify(MULTIPLY_ID).unwrap();
+
+
 }

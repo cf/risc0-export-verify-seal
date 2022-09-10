@@ -1,0 +1,20 @@
+[package]
+name = "risc0_verify"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+arrayref = "0.3.6"
+env_logger = "0.9.0"
+generic-array = "0.14.5"
+lazy_static = "1.4.0"
+log = "0.4.16"
+rand = { version = "0.8.4", default-features = false, features = ["small_rng"] } 
+rand_core = "0.6.3"
+serde = "1.0.118"
+sha2 = { version = "0.10", features = ["compress"] }
+test-log = "0.2.10"
+typenum = "1.15.0"
+
